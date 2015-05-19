@@ -92,14 +92,15 @@ func generateStacktrace() Stacktrace {
 }
 
 type Event struct {
-	EventId    string     `json:"event_id"`
-	Project    string     `json:"project"`
-	Message    string     `json:"message"`
-	Timestamp  string     `json:"timestamp"`
-	Level      string     `json:"level"`
-	Logger     string     `json:"logger"`
-	Culprit    string     `json:"culprit"`
-	Stacktrace Stacktrace `json:"stacktrace"`
+	EventId    	string     							`json:"event_id"`
+	Project    	string     							`json:"project"`
+	Message    	string     							`json:"message"`
+	Timestamp  	string     							`json:"timestamp"`
+	Level      	string     							`json:"level"`
+	Logger     	string     							`json:"logger"`
+	Culprit    	string     							`json:"culprit"`
+	Stacktrace 	Stacktrace 							`json:"stacktrace"`
+	Tags				map[string]interface{}	`json:"tags"`
 }
 
 type sentryResponse struct {

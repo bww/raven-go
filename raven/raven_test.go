@@ -119,6 +119,7 @@ func TestCapture(t *testing.T) {
 	testEvent(&Event{Message: "test.root.error", Timestamp: "2013-10-17T11:25:59"})
 	testEvent(&Event{Message: "test.root.error", EventId: "1234-34567-8912-124123"})
 	testEvent(&Event{Message: "test.auth.info", Level: "info", Logger: "auth"})
+	testEvent(&Event{Message: "test.tags", Tags:map[string]interface{}{"This": "That", "Here": "There"}})
 }
 
 func TestTimeout(t *testing.T) {
