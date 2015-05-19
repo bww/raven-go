@@ -101,6 +101,7 @@ type Event struct {
 	Culprit    	string     							`json:"culprit"`
 	Stacktrace 	Stacktrace 							`json:"stacktrace"`
 	Tags				map[string]interface{}	`json:"tags"`
+	Extra				map[string]interface{}	`json:"extra"`
 }
 
 type sentryResponse struct {
