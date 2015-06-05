@@ -20,22 +20,24 @@
 package raven
 
 import (
-	"bytes"
-	"compress/zlib"
-	"crypto/rand"
-	"encoding/base64"
-	"encoding/hex"
-	"encoding/json"
-	"errors"
 	"fmt"
-	"net"
-	"net/http"
-	"net/url"
+	"time"
 	"path"
+	"bytes"
+	"errors"
 	"runtime"
 	"strconv"
 	"strings"
-	"time"
+	
+	"net"
+	"net/http"
+	"net/url"
+	
+	"crypto/rand"
+	"encoding/hex"
+	"encoding/json"
+	"compress/zlib"
+	"encoding/base64"
 )
 
 type Client struct {
@@ -58,7 +60,7 @@ type Stacktrace struct {
 	Frames []Frame `json:"frames"`
 }
 
-func generateStacktrace() Stacktrace {
+func GenerateStacktrace() Stacktrace {
 	var stacktrace Stacktrace
 	maxDepth := 10
 	// Start on depth 1 to avoid stack for generateStacktrace
