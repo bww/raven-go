@@ -63,7 +63,7 @@ type Stacktrace struct {
 func GenerateStacktrace() Stacktrace {
 	var stacktrace Stacktrace
 	maxDepth := 10
-	// Start on depth 1 to avoid stack for generateStacktrace
+	// Start on depth 1 to avoid stack for GenerateStacktrace
 	for depth := 1; depth < maxDepth; depth++ {
 		pc, filePath, line, ok := runtime.Caller(depth)
 		if !ok {
@@ -213,7 +213,7 @@ func (client Client) Capture(ev *Event) error {
 	}
 
 	if len(ev.Stacktrace.Frames) == 0 {
-		ev.Stacktrace = generateStacktrace()
+		ev.Stacktrace = GenerateStacktrace()
 	}
 
 	buf, err := encode(ev)
