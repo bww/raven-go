@@ -185,6 +185,6 @@ func TestStacktrace(t *testing.T) {
 
 	// Should be four frames on stack, two for testrunner, two for nesting
 	if len(capturedEvent.Stacktrace.Frames) != 4 {
-		t.Fatalf("Wrong number of frames on stack, %v", capturedEvent.Stacktrace)
+		t.Fatalf("Wrong number of frames on stack, (%v != %v) %v", len(capturedEvent.Stacktrace.Frames), 4, capturedEvent.Stacktrace)
 	}
 }

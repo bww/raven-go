@@ -61,35 +61,49 @@ type Stacktrace struct {
 }
 
 func GenerateStacktrace() Stacktrace {
+	return GenerateStacktraceWithOptions(1 /* skip GenerateStacktrace() */, nil)
+}
+
+func GenerateStacktraceWithOptions(skip int, exclude []string) Stacktrace {
 	var stacktrace Stacktrace
 	maxDepth := 10
-	// Start on depth 1 to avoid stack for GenerateStacktrace
-	for depth := 1; depth < maxDepth; depth++ {
+	
+	for depth := 1 /* skip GenerateStacktraceWithOptions() */ + skip; depth < maxDepth; depth++ {
+		
 		pc, filePath, line, ok := runtime.Caller(depth)
 		if !ok {
 			break
 		}
+		
 		f := runtime.FuncForPC(pc)
-		if strings.Contains(f.Name(), "runtime") {
-			// Stop when reaching runtime
-			break
+		fname := f.Name()
+		
+		if strings.Contains(fname, "runtime") {
+			break // Stop when reaching runtime
 		}
-		if strings.Contains(f.Name(), "raven.Client") {
-			// Skip internal calls
-			continue
+		if strings.Contains(fname, "raven.Client") {
+			continue // Skip internal calls
 		}
-		functionName := f.Name()
+		if exclude != nil {
+			for _, e := range exclude {
+				if strings.Contains(fname, e) {
+					continue // Skip excluded calls
+				}
+			}
+		}
+		
 		var moduleName string
 		if strings.Contains(f.Name(), "(") {
 			components := strings.SplitN(f.Name(), ".(", 2)
-			functionName = "(" + components[1]
+			fname = "(" + components[1]
 			moduleName = components[0]
 		}
+		
 		fileName := path.Base(filePath)
-		frame := Frame{Filename: fileName, LineNumber: line, FilePath: filePath,
-			Function: functionName, Module: moduleName}
+		frame := Frame{Filename: fileName, LineNumber: line, FilePath: filePath, Function: fname, Module: moduleName}
 		stacktrace.Frames = append(stacktrace.Frames, frame)
 	}
+	
 	return stacktrace
 }
 
